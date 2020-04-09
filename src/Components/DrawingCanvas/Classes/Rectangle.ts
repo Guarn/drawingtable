@@ -33,8 +33,8 @@ export default class newRectangle extends Shape {
   draw() {
     const ctx = getContext();
     ctx?.beginPath();
-    ctx!.lineWidth = this.isSelected() ? 2 : 1;
-    ctx!.strokeStyle = this.isSelected() ? "#21A8E2" : this.strokeColor;
+    ctx!.lineWidth = this.strokeWidth;
+    ctx!.strokeStyle = this.strokeColor;
     ctx!.fillStyle = this.fillColor;
     ctx?.rect(this.startPoint.x, this.startPoint.y, this.width, this.height);
     ctx?.stroke();

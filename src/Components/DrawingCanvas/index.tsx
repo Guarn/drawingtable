@@ -2,12 +2,18 @@ import React, { useRef, useEffect } from "react";
 import { Canvas } from "./Styled";
 import { Point, Rectangle } from "./Classes";
 import State from "./Classes/State";
-import GlobalStore from "./Classes/newState";
+import { ItemsStore, ContextStore } from "./Stores";
 
 export interface DrawingCanvasI {
   tool: string;
 }
 const { substract } = Point;
+const {
+  isTranslating,
+  setCanvasId,
+  get2DContext,
+  getContextCoords,
+} = ContextStore;
 const {
   addItem,
   getItemsList,
@@ -15,77 +21,37 @@ const {
   removeItem,
   setSelected,
   getSelected,
-} = GlobalStore;
+} = ItemsStore;
 
 const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
   const refCanvas = useRef<HTMLCanvasElement>(null);
-  const state = State.getStateInstance();
+  let ctx = get2DContext();
 
-  let {
-    itemsList,
-    selectedId,
-    setCanvasId,
-    getRealPoint,
-    getContext,
-    contextTranslating,
-    translateOffset,
-    contextCoords,
-  } = state;
   const resetContext = (caller: string = "") => {
     const context = refCanvas.current?.getContext("2d");
 
     // console.log("Reset ! " + caller + " ||| selectedId : " + selectedId);
 
     context!.clearRect(0, 0, 800, 500);
-    let ctx = getContext();
     ctx?.save();
 
-    ctx!.translate(contextCoords.x, contextCoords.y);
+    ctx!.translate(getContextCoords().x, getContextCoords().y);
     ctx?.beginPath();
     ctx!.fillStyle = "black";
     ctx!.lineWidth = 2;
     ctx?.fillRect(398, 0, 4, 500);
-    itemsList.map((el) => {
+    getItemsList().map((el) => {
       if (!el.isSelected()) {
         el.draw();
       }
       return null;
     });
     ctx?.restore();
-
-    if (selectedId >= 0 && itemsList[selectedId].isSelected()) {
-      let ctx = getContext();
-      ctx?.save();
-      ctx!.translate(contextCoords.x, contextCoords.y);
-
-      itemsList[selectedId].draw();
-      itemsList[selectedId].drawHandlers();
-      const { startPoint, endPoint } = itemsList[selectedId];
-      let middlePoint = Point.getCenterPoint(startPoint, endPoint);
-
-      ctx!.fillStyle = "red";
-      ctx?.arc(middlePoint.x, middlePoint.y, 5, 0, Math.PI * 2);
-      ctx?.fill();
-      ctx!.fillStyle = "green";
-      ctx?.beginPath();
-      ctx?.restore();
-    }
   };
 
   useEffect(() => {
-    addItem(new Rectangle());
-    addItem(new Rectangle());
-    addItem(new Rectangle());
-    console.log(getItemsList());
-
-    console.log(getSelected());
-    setSelected(getItemsList()[0].id, new Point(3, 5));
-    getSelected().found && removeItem(getSelected().item!.id);
-    console.log(getSelected());
-    console.log(getItemsList());
-
     setCanvasId("MyCanvas");
-    itemsList.map((el) => {
+    getItemsList().map((el) => {
       el.deselect();
       return null;
     });
@@ -100,9 +66,9 @@ const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
   const mouseDownHandle = (event: React.MouseEvent) => {
     const { clientX, clientY } = event;
 
-    if (!contextTranslating) {
+    if (!isTranslating()) {
       if (tool === "rectangle") {
-        itemsList.push(
+        getItemsList.push(
           new Rectangle(
             getRealPoint(clientX, clientY),
             getRealPoint(clientX, clientY)

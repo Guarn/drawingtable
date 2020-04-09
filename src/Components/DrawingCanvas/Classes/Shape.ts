@@ -48,4 +48,24 @@ export default class Shape {
   isResizing() {
     return this.resizing;
   }
+
+  getFillStyle() {
+    return this.fillColor;
+  }
+  setFillColor(color: string) {
+    this.fillColor = color;
+  }
+  getStrokeStyle() {
+    return this.strokeColor;
+  }
+  setStrokeColor(color: string) {
+    this.strokeColor = color;
+  }
+
+  getLineWidth() {
+    return this.strokeWidth;
+  }
+  setLineWidth(width: number) {
+    this.strokeWidth = width;
+  }
 }

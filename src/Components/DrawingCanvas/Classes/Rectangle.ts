@@ -73,14 +73,8 @@ export default class newRectangle extends Shape {
   }
   isPointIn(point: Point): boolean {
     const { x, y } = point;
-    const state = State.getStateInstance();
     let widthReverse = this.startPoint.x >= this.endPoint.x;
     let heightReverse = this.startPoint.y >= this.endPoint.y;
-    console.log("Point", point);
-    console.log("startPoint", this.startPoint);
-    console.log("endPoint", this.endPoint);
-    console.log("Context", state.contextCoords);
-    console.log("TranslateContext", state.translateOffset);
 
     if (
       widthReverse &&
@@ -127,8 +121,15 @@ export default class newRectangle extends Shape {
     return false;
   }
 
-  isHandleSelected(point: Point): string {
-    return this.calculateHandlers(point);
+  isHandleSelected(
+    point: Point
+  ): { found: false; handler: undefined } | { found: true; handler: string } {
+    const handleSelected = this.calculateHandlers(point);
+    if (!handleSelected) {
+      return { found: false, handler: undefined };
+    } else {
+      return { found: true, handler: handleSelected };
+    }
   }
 
   private calculateHandlers(point: Point) {

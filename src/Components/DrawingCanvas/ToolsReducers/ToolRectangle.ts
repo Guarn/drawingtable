@@ -1,7 +1,7 @@
 import ItemsStore from "../Stores/ItemsStore";
 import { Rectangle, Point } from "../Classes";
 import { getRealPoint } from "../Utils/Coords";
-import { ClearAndDrawAll } from "../Utils/Drawing";
+import { clearAndDrawAll } from "../Utils/Drawing";
 
 const {
   addItem,
@@ -19,7 +19,7 @@ const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
       const startPoint = getRealPoint(clientX, clientY);
       addItem(new Rectangle(startPoint, startPoint));
       selectLastItemAdded();
-      ClearAndDrawAll();
+      clearAndDrawAll();
 
       break;
     case "mousemove":
@@ -27,7 +27,7 @@ const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
       if (itemMoved && itemMoved.isMoving()) {
         itemMoved.setPoints(undefined, getRealPoint(clientX, clientY));
         updateItem(itemMoved);
-        ClearAndDrawAll();
+        clearAndDrawAll();
       }
       break;
     case "mouseup":
@@ -35,7 +35,7 @@ const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
       itemStop.setPoints(undefined, getRealPoint(clientX, clientY));
       itemStop.deselect();
       updateItem(itemStop);
-      ClearAndDrawAll();
+      clearAndDrawAll();
       break;
 
     default:

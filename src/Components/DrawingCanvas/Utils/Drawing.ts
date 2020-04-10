@@ -22,7 +22,7 @@ export const drawSelected = () => {
   }
 };
 
-export const ClearAndDrawAll = () => {
+export const clearAndDrawAll = () => {
   clearDrawArea();
   drawItemsList();
   drawSelected();

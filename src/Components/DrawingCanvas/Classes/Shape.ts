@@ -32,9 +32,12 @@ export default class Shape {
   isPointIn(point: Point | [number, number]): boolean {
     return false;
   }
-  isHandleSelected(point: Point): string {
-    return "";
+  isHandleSelected(
+    point: Point
+  ): { found: false; handler: undefined } | { found: true; handler: string } {
+    return { found: true, handler: "none" };
   }
+
   selectHandle(point: Point, handler: string) {}
   setMoving(isMoving: boolean) {
     this.moving = isMoving;

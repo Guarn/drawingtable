@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Canvas } from "./Styled";
 import { ItemsStore, ContextStore } from "./Stores";
-import { ClearAndDrawAll } from "./Utils/Drawing";
+import { clearAndDrawAll } from "./Utils/Drawing";
 import { ToolType } from "./Classes/Types";
 import ToolsReducers from "./ToolsReducers";
 
@@ -21,7 +21,7 @@ const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
     setCanvasId("MyCanvas");
 
     deselectAll();
-    ClearAndDrawAll();
+    clearAndDrawAll();
 
     document.addEventListener("keydown", handleEvents);
     document.addEventListener("keyup", handleEvents);

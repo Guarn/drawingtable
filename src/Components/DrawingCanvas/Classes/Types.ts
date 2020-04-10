@@ -13,3 +13,8 @@ export interface IRectangle {
   offset?: Point;
   refCanvas: string;
 }
+
+export enum ToolType {
+  SELECT = "select",
+  RECTANGLE = "rectangle",
+}

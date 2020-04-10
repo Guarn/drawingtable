@@ -34,6 +34,20 @@ const ItemsStore = (() => {
         throw new Error("This ID doesn't exist.");
       }
     },
+    deselectAll: () => {
+      _itemsList.map((v) => v.deselect());
+      _selectedId = "";
+    },
+
+    /**
+     * Usefull at the creation of a new Rectangle,
+     *  automatically select good ID and setMoving of that object.
+     */
+    selectLastItemAdded: () => {
+      _selectedId = _itemsList[_itemsList.length - 1].id;
+      Store.setSelected(_selectedId, new Point(0, 0));
+      _itemsList[_itemsList.length - 1].setMoving(true);
+    },
   };
 
   return Object.freeze(Store);

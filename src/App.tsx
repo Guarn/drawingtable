@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import Toolbar from "./Components/Toolbar";
 import { ConteneurGlobal } from "./Components/Toolbar/Styled";
 import DrawingCanvas from "./Components/DrawingCanvas";
+import { ToolType } from "./Components/DrawingCanvas/Classes/Types";
 
 function App() {
-  const [tool, setTool] = useState("rectangle");
+  const [tool, setTool] = useState<ToolType>(ToolType.RECTANGLE);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: ToolType) => {
     setTool(value);
   };
   return (

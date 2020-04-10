@@ -12,6 +12,7 @@ const ContextStore = (() => {
   const Store = {
     setCanvasId: (id: string) => {
       _canvasId = id;
+      Store.UpdateCanvasCoords();
     },
     getCanvasId: () => {
       return _canvasId;
@@ -27,8 +28,15 @@ const ContextStore = (() => {
     getCanvasCoords: () => {
       return new Point(_canvasCoords.x, _canvasCoords.y);
     },
-    setCanvasCoords: (x: number, y: number) => {
-      _canvasCoords = { ..._canvasCoords, x: x, y: y };
+    UpdateCanvasCoords: () => {
+      const canvas = document
+        .getElementById(_canvasId)
+        ?.getBoundingClientRect();
+      if (canvas) {
+        _canvasCoords = new Point(canvas.x, canvas.y);
+      } else {
+        throw new Error("Undefined canvas. Check canvas Id !");
+      }
     },
     isTranslating: () => _contextIsTranslating,
     setTranslating: (value: boolean) => {

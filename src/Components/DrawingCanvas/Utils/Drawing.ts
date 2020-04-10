@@ -21,3 +21,9 @@ export const drawSelected = () => {
     item?.drawHandlers();
   }
 };
+
+export const ClearAndDrawAll = () => {
+  clearDrawArea();
+  drawItemsList();
+  drawSelected();
+};

@@ -1,28 +1,27 @@
 import React from "react";
 import * as S from "./Styled";
 import Tool from "./Tool";
+import { ToolType } from "../DrawingCanvas/Classes/Types";
 
 export interface ToolbarI {
-  value: string;
-  onChange: (val: string) => void;
+  value: ToolType;
+  onChange: (val: ToolType) => void;
 }
 
 const Toolbar: React.FC<ToolbarI> = ({ value, onChange }) => {
-  const handleChange = (val: string) => {
+  const handleChange = (val: ToolType) => {
     onChange(val);
   };
   return (
     <S.Toolbar>
       <Tool
-        type="select"
-        selected={value === "select"}
+        type={ToolType.SELECT}
+        selected={value === ToolType.SELECT}
         onChange={handleChange}
       />
-      <Tool type="pen" selected={value === "pen"} onChange={handleChange} />
-      <Tool type="move" selected={value === "move"} onChange={handleChange} />
       <Tool
-        type="rectangle"
-        selected={value === "rectangle"}
+        type={ToolType.RECTANGLE}
+        selected={value === ToolType.RECTANGLE}
         onChange={handleChange}
       />
     </S.Toolbar>

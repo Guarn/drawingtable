@@ -3,7 +3,7 @@ import Shape from "./Shape";
 import ContextStore from "../Stores/ContextStore";
 
 const { substract } = Point;
-const { get2DContext, getHandlerRadius } = ContextStore;
+const { get2DContext, getHandlerRadius, getContextCoords } = ContextStore;
 
 export default class Rectangle extends Shape {
   startPoint: Point;
@@ -79,20 +79,20 @@ export default class Rectangle extends Shape {
     if (
       widthReverse &&
       heightReverse &&
-      x < this.startPoint.x + getHandlerRadius() &&
-      y < this.startPoint.y + getHandlerRadius() &&
-      x > this.endPoint.x - getHandlerRadius() &&
-      y > this.endPoint.y - getHandlerRadius()
+      x + getContextCoords().x < this.startPoint.x + getHandlerRadius() &&
+      y + getContextCoords().y < this.startPoint.y + getHandlerRadius() &&
+      x + getContextCoords().x > this.endPoint.x - getHandlerRadius() &&
+      y + getContextCoords().y > this.endPoint.y - getHandlerRadius()
     ) {
       return true;
     }
     if (
       !widthReverse &&
       !heightReverse &&
-      x > this.startPoint.x - getHandlerRadius() &&
-      y > this.startPoint.y - getHandlerRadius() &&
-      x < this.endPoint.x + getHandlerRadius() &&
-      y < this.endPoint.y + getHandlerRadius()
+      x + getContextCoords().x > this.startPoint.x - getHandlerRadius() &&
+      y + getContextCoords().y > this.startPoint.y - getHandlerRadius() &&
+      x + getContextCoords().x < this.endPoint.x + getHandlerRadius() &&
+      y + getContextCoords().y < this.endPoint.y + getHandlerRadius()
     ) {
       return true;
     }

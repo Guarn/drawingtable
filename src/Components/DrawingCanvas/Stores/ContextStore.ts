@@ -8,12 +8,14 @@ const ContextStore = (() => {
   let _contextCoords = new Point(0, 0);
   let _canvasWidth = 800;
   let _canvasHeight = 500;
+  let _handlersRadius = 8;
 
   const Store = {
     setCanvasId: (id: string) => {
       _canvasId = id;
       Store.UpdateCanvasCoords();
     },
+    getHandlerRadius: () => _handlersRadius,
     getCanvasId: () => {
       return _canvasId;
     },

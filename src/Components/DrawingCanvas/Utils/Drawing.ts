@@ -15,6 +15,8 @@ export const drawItemsList = () => {
 };
 
 export const drawSelected = () => {
+  console.log(getSelected());
+
   const { item, found } = getSelected();
   if (found) {
     item?.draw();

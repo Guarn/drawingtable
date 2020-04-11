@@ -4,6 +4,7 @@ import { Point } from ".";
 export default class Shape {
   constructor(
     readonly id: string = uuid(),
+    protected startPoint = new Point(0, 0),
     protected selected = false,
     protected moving = false,
     protected resizing = false,
@@ -25,6 +26,10 @@ export default class Shape {
     this.selected = false;
     this.moving = false;
     this.resizing = false;
+  }
+
+  getStartPoint() {
+    return this.startPoint;
   }
 
   draw() {}

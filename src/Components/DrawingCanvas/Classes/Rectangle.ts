@@ -1,9 +1,9 @@
 import { Point } from ".";
-import State from "./State";
 import Shape from "./Shape";
+import ContextStore from "../Stores/ContextStore";
 
-const { substract, add } = Point;
-const { getContext, handlersRadius, contextCoords } = State.getStateInstance();
+const { substract } = Point;
+const { get2DContext, getHandlerRadius, getContextCoords } = ContextStore;
 
 export default class newRectangle extends Shape {
   startPoint: Point;
@@ -31,7 +31,7 @@ export default class newRectangle extends Shape {
   }
 
   draw() {
-    const ctx = getContext();
+    const ctx = get2DContext();
     ctx?.beginPath();
     ctx!.lineWidth = this.strokeWidth;
     ctx!.strokeStyle = this.strokeColor;
@@ -41,9 +41,10 @@ export default class newRectangle extends Shape {
     ctx?.fill();
   }
   drawHandlers() {
-    const ctx = getContext();
+    const ctx = get2DContext();
     ctx?.beginPath();
     ctx?.moveTo(this.startPoint.x + 5, this.startPoint.y);
+    console.log("DrawHandlers");
 
     ctx!.strokeStyle = "#21A8E2";
     ctx!.fillStyle = "#B4E8FF";
@@ -79,30 +80,30 @@ export default class newRectangle extends Shape {
     if (
       widthReverse &&
       heightReverse &&
-      x < this.startPoint.x + handlersRadius &&
-      y < this.startPoint.y + handlersRadius &&
-      x > this.endPoint.x - handlersRadius &&
-      y > this.endPoint.y - handlersRadius
+      x < this.startPoint.x + getHandlerRadius() &&
+      y < this.startPoint.y + getHandlerRadius() &&
+      x > this.endPoint.x - getHandlerRadius() &&
+      y > this.endPoint.y - getHandlerRadius()
     ) {
       return true;
     }
     if (
       !widthReverse &&
       !heightReverse &&
-      x > this.startPoint.x - handlersRadius + contextCoords.x &&
-      y > this.startPoint.y - handlersRadius + contextCoords.y &&
-      x < this.endPoint.x + handlersRadius + contextCoords.x &&
-      y < this.endPoint.y + handlersRadius + contextCoords.y
+      x > this.startPoint.x - getHandlerRadius() &&
+      y > this.startPoint.y - getHandlerRadius() &&
+      x < this.endPoint.x + getHandlerRadius() &&
+      y < this.endPoint.y + getHandlerRadius()
     ) {
       return true;
     }
     if (
       widthReverse &&
       !heightReverse &&
-      x < this.startPoint.x + handlersRadius + contextCoords.x &&
-      y > this.startPoint.y - handlersRadius + contextCoords.y &&
-      x > this.endPoint.x - handlersRadius + contextCoords.x &&
-      y < this.endPoint.y + handlersRadius + contextCoords.y
+      x < this.startPoint.x + getHandlerRadius() &&
+      y > this.startPoint.y - getHandlerRadius() &&
+      x > this.endPoint.x - getHandlerRadius() &&
+      y < this.endPoint.y + getHandlerRadius()
     ) {
       return true;
     }
@@ -110,10 +111,10 @@ export default class newRectangle extends Shape {
     if (
       !widthReverse &&
       heightReverse &&
-      x > this.startPoint.x - handlersRadius + contextCoords.x &&
-      y < this.startPoint.y + handlersRadius + contextCoords.y &&
-      x < this.endPoint.x + handlersRadius + contextCoords.x &&
-      y > this.endPoint.y - handlersRadius + contextCoords.y
+      x > this.startPoint.x - getHandlerRadius() &&
+      y < this.startPoint.y + getHandlerRadius() &&
+      x < this.endPoint.x + getHandlerRadius() &&
+      y > this.endPoint.y - getHandlerRadius()
     ) {
       return true;
     }
@@ -166,9 +167,10 @@ export default class newRectangle extends Shape {
   }
 
   private isPointCloseNumber(xArea: number, xClick: number) {
-    const { handlersRadius } = State.getStateInstance();
-
-    if (xClick >= xArea - handlersRadius && xClick <= xArea + handlersRadius) {
+    if (
+      xClick >= xArea - getHandlerRadius() &&
+      xClick <= xArea + getHandlerRadius()
+    ) {
       return true;
     } else {
       return false;

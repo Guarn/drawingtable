@@ -1,14 +1,14 @@
 import { ToolType } from "../Classes/Types";
 import { ItemsStore, ContextStore } from "../Stores";
 import { clearAndDrawAll } from "../Utils/Drawing";
+import { Point } from "../Classes";
 
-const { getSelected, removeItem, deselectAll } = ItemsStore;
+const { getSelected, removeItem, deselectAll, updateItem } = ItemsStore;
 const { get2DContext } = ContextStore;
 
 const Keyboard = (event: KeyboardEvent, tool: ToolType) => {
-  console.log(event);
-
   const { found, item } = getSelected();
+
   switch (event.code) {
     case "Delete":
       found && removeItem(item!.id);
@@ -19,30 +19,62 @@ const Keyboard = (event: KeyboardEvent, tool: ToolType) => {
       clearAndDrawAll();
       break;
     case "ArrowLeft":
-      if (event.type === "keydown") {
-        get2DContext()?.translate(-10, 0);
-        console.log(get2DContext()?.getTransform());
+      if (event.type === "keydown" && item) {
+        if (event.shiftKey) {
+          item?.move(
+            new Point(item.getStartPoint().x - 10, item.getStartPoint().y)
+          );
+        } else {
+          item?.move(
+            new Point(item.getStartPoint().x - 1, item.getStartPoint().y)
+          );
+        }
+        updateItem(item);
         clearAndDrawAll();
       }
       break;
     case "ArrowRight":
-      if (event.type === "keydown") {
-        get2DContext()?.translate(10, 0);
-        console.log(get2DContext()?.getTransform());
+      if (event.type === "keydown" && item) {
+        if (event.shiftKey) {
+          item?.move(
+            new Point(item.getStartPoint().x + 10, item.getStartPoint().y)
+          );
+        } else {
+          item?.move(
+            new Point(item.getStartPoint().x + 1, item.getStartPoint().y)
+          );
+        }
+        updateItem(item);
         clearAndDrawAll();
       }
       break;
     case "ArrowUp":
-      if (event.type === "keydown") {
-        get2DContext()?.translate(0, -10);
-        console.log(get2DContext()?.getTransform());
+      if (event.type === "keydown" && item) {
+        if (event.shiftKey) {
+          item?.move(
+            new Point(item.getStartPoint().x, item.getStartPoint().y - 10)
+          );
+        } else {
+          item?.move(
+            new Point(item.getStartPoint().x, item.getStartPoint().y - 1)
+          );
+        }
+        updateItem(item);
         clearAndDrawAll();
       }
       break;
     case "ArrowDown":
-      if (event.type === "keydown") {
-        get2DContext()?.translate(0, 10);
-        console.log(get2DContext()?.getTransform());
+      if (event.type === "keydown" && item) {
+        if (event.shiftKey) {
+          item?.move(
+            new Point(item.getStartPoint().x, item.getStartPoint().y + 10)
+          );
+        } else {
+          item?.move(
+            new Point(item.getStartPoint().x, item.getStartPoint().y + 1)
+          );
+        }
+        updateItem(item);
         clearAndDrawAll();
       }
       break;

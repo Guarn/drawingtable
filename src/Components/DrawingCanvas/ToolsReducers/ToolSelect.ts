@@ -12,8 +12,8 @@ const {
   deselectAll,
 } = ItemsStore;
 
-const ToolSelect = (event: KeyboardEvent | React.MouseEvent) => {
-  const { clientX, clientY } = (event as React.MouseEvent) || undefined;
+const ToolSelect = (event: React.MouseEvent) => {
+  const { clientX, clientY } = event;
   const eventPoint = getRealPoint(clientX, clientY);
   const { found, item } = getSelected();
 
@@ -70,9 +70,11 @@ const ToolSelect = (event: KeyboardEvent | React.MouseEvent) => {
       break;
     case "mouseup":
       if (item?.isMoving() || item?.isResizing()) {
+        item.select(); // sets offset to (0,0)
         item.setResizing(false);
         item.setMoving(false);
         updateItem(item);
+        clearAndDrawAll();
       }
       break;
 

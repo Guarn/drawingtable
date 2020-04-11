@@ -5,7 +5,7 @@ import ToolSelect from "./ToolSelect";
 
 const { RECTANGLE, SELECT } = ToolType;
 
-const ToolsReducers = (event: MouseEvent | KeyboardEvent, tool: ToolType) => {
+const ToolsReducers = (event: MouseEvent, tool: ToolType) => {
   switch (tool) {
     case RECTANGLE:
       ToolRectangle(event);

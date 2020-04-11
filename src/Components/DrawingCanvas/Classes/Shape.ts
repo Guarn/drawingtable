@@ -18,14 +18,19 @@ export default class Shape {
     return this.selected;
   }
 
-  select(point: Point) {
+  select(point?: Point) {
     this.selected = true;
-    this.offset = point;
+    if (point) {
+      this.offset = point;
+    } else {
+      this.offset = new Point(0, 0);
+    }
   }
   deselect() {
     this.selected = false;
     this.moving = false;
     this.resizing = false;
+    this.offset = new Point(0, 0);
   }
 
   getStartPoint() {

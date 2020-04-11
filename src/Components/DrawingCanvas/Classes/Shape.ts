@@ -76,4 +76,6 @@ export default class Shape {
   setLineWidth(width: number) {
     this.strokeWidth = width;
   }
+  move(point: Point) {}
+  resize(point: Point) {}
 }

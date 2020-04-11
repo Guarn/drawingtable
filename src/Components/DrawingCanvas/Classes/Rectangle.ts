@@ -44,7 +44,6 @@ export default class newRectangle extends Shape {
     const ctx = get2DContext();
     ctx?.beginPath();
     ctx?.moveTo(this.startPoint.x + 5, this.startPoint.y);
-    console.log("DrawHandlers");
 
     ctx!.strokeStyle = "#21A8E2";
     ctx!.fillStyle = "#B4E8FF";
@@ -201,8 +200,6 @@ export default class newRectangle extends Shape {
     this.recalculateDimensions();
   }
   resize(point: Point) {
-    console.log(this.handlerSelected);
-
     switch (this.handlerSelected) {
       case "topLeft":
         this.startPoint = substract(point, this.offset);

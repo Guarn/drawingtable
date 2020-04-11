@@ -4,6 +4,7 @@ import { ItemsStore, ContextStore } from "./Stores";
 import { clearAndDrawAll } from "./Utils/Drawing";
 import { ToolType } from "./Classes/Types";
 import ToolsReducers from "./ToolsReducers";
+import Keyboard from "./ToolsReducers/Keyboard";
 
 export interface DrawingCanvasI {
   tool: ToolType;
@@ -13,8 +14,11 @@ const { deselectAll } = ItemsStore;
 const { width, height } = getCanvasDimensions();
 
 const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
-  const handleEvents = (event: React.MouseEvent | KeyboardEvent) => {
+  const handleMouseEvents = (event: React.MouseEvent) => {
     ToolsReducers(event, tool);
+  };
+  const handleKeyboardEvents = (event: KeyboardEvent) => {
+    Keyboard(event, tool);
   };
 
   useEffect(() => {
@@ -23,11 +27,11 @@ const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
     deselectAll();
     clearAndDrawAll();
 
-    document.addEventListener("keydown", handleEvents);
-    document.addEventListener("keyup", handleEvents);
+    document.addEventListener("keydown", handleKeyboardEvents);
+    document.addEventListener("keyup", handleKeyboardEvents);
     return () => {
-      document.removeEventListener("keydown", handleEvents);
-      document.addEventListener("keyup", handleEvents);
+      document.removeEventListener("keydown", handleKeyboardEvents);
+      document.addEventListener("keyup", handleKeyboardEvents);
     };
   });
 
@@ -36,10 +40,10 @@ const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
       height={height}
       width={width}
       id="MyCanvas"
-      onMouseDown={handleEvents}
-      onMouseUp={handleEvents}
-      onMouseMove={handleEvents}
-      onMouseLeave={handleEvents}
+      onMouseDown={handleMouseEvents}
+      onMouseUp={handleMouseEvents}
+      onMouseMove={handleMouseEvents}
+      onMouseLeave={handleMouseEvents}
     />
   );
 };

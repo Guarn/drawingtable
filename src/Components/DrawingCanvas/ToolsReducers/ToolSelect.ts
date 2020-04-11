@@ -5,8 +5,6 @@ import { clearAndDrawAll, drawSelected } from "../Utils/Drawing";
 
 const { substract } = Point;
 const {
-  addItem,
-  selectLastItemAdded,
   getItemsList,
   setSelected,
   getSelected,
@@ -17,6 +15,7 @@ const {
 const ToolSelect = (event: KeyboardEvent | React.MouseEvent) => {
   const { clientX, clientY } = (event as React.MouseEvent) || undefined;
   const eventPoint = getRealPoint(clientX, clientY);
+  const { found, item } = getSelected();
 
   switch (event.type) {
     case "mousedown":
@@ -49,6 +48,7 @@ const ToolSelect = (event: KeyboardEvent | React.MouseEvent) => {
           lastItem.setMoving(true);
           lastItem.select(substract(eventPoint, lastItem.getStartPoint()));
         }
+
         updateItem(lastItem);
         clearAndDrawAll();
       }
@@ -56,21 +56,23 @@ const ToolSelect = (event: KeyboardEvent | React.MouseEvent) => {
       break;
 
     case "mousemove":
-      const selectedItem =
-        getSelected().found && getSelected().item?.isMoving()
-          ? (getSelected().item as Rectangle)
-          : null;
-      if (selectedItem) {
-        selectedItem.move(eventPoint);
-        updateItem(selectedItem);
+      if (item && item.isMoving()) {
+        item.move(eventPoint);
+        updateItem(item);
+        clearAndDrawAll();
+      }
+      if (item && item.isResizing()) {
+        item.resize(eventPoint);
+        updateItem(item);
         clearAndDrawAll();
       }
 
       break;
     case "mouseup":
-      if (getSelected().found) {
-        getSelected().item?.setMoving(false);
-        getSelected().item?.setResizing(false);
+      if (item?.isMoving() || item?.isResizing()) {
+        item.setResizing(false);
+        item.setMoving(false);
+        updateItem(item);
       }
       break;
 

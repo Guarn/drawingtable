@@ -3,9 +3,9 @@ import Shape from "./Shape";
 import ContextStore from "../Stores/ContextStore";
 
 const { substract } = Point;
-const { get2DContext, getHandlerRadius, getContextCoords } = ContextStore;
+const { get2DContext, getHandlerRadius } = ContextStore;
 
-export default class newRectangle extends Shape {
+export default class Rectangle extends Shape {
   startPoint: Point;
   endPoint: Point;
   width: number;

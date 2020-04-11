@@ -1,13 +1,16 @@
 import { ContextStore } from "../Stores";
 import { ItemsStore } from "../Stores";
 
-const { get2DContext, getCanvasDimensions } = ContextStore;
+const { get2DContext, getCanvasDimensions, getContextCoords } = ContextStore;
 const { getItemsList, getSelected } = ItemsStore;
 
 export const clearDrawArea = () => {
   const ctx = get2DContext();
   const { width, height } = getCanvasDimensions();
-  ctx?.clearRect(0, 0, width, height);
+  const { x, y } = getContextCoords();
+  console.log(x, y);
+
+  ctx?.clearRect(-x, -y, width, height);
 };
 
 export const drawItemsList = () => {

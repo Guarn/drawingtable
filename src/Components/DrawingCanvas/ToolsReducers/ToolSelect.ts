@@ -1,5 +1,5 @@
 import ItemsStore from "../Stores/ItemsStore";
-import { Rectangle, Point } from "../Classes";
+import { Point } from "../Classes";
 import { getRealPoint } from "../Utils/Coords";
 import { clearAndDrawAll, drawSelected } from "../Utils/Drawing";
 
@@ -15,7 +15,7 @@ const {
 const ToolSelect = (event: React.MouseEvent) => {
   const { clientX, clientY } = event;
   const eventPoint = getRealPoint(clientX, clientY);
-  const { found, item } = getSelected();
+  const { item } = getSelected();
 
   switch (event.type) {
     case "mousedown":

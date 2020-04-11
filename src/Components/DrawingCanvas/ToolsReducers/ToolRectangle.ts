@@ -1,15 +1,9 @@
 import ItemsStore from "../Stores/ItemsStore";
-import { Rectangle, Point } from "../Classes";
+import { Rectangle } from "../Classes";
 import { getRealPoint } from "../Utils/Coords";
 import { clearAndDrawAll } from "../Utils/Drawing";
 
-const {
-  addItem,
-  selectLastItemAdded,
-  getItemsList,
-  getSelected,
-  updateItem,
-} = ItemsStore;
+const { addItem, selectLastItemAdded, getSelected, updateItem } = ItemsStore;
 
 const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
   const { clientX, clientY } = (event as React.MouseEvent) || undefined;

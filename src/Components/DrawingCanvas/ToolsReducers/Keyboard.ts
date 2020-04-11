@@ -4,12 +4,19 @@ import { clearAndDrawAll } from "../Utils/Drawing";
 import { Point } from "../Classes";
 
 const { getSelected, removeItem, deselectAll, updateItem } = ItemsStore;
-const { get2DContext } = ContextStore;
+const { get2DContext, setTranslating } = ContextStore;
 
 const Keyboard = (event: KeyboardEvent, tool: ToolType) => {
   const { found, item } = getSelected();
 
   switch (event.code) {
+    case "Space":
+      if (event.type === "keydown") {
+        setTranslating(true);
+      } else {
+        setTranslating(false);
+      }
+      break;
     case "Delete":
       found && removeItem(item!.id);
       clearAndDrawAll();

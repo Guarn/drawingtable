@@ -11,7 +11,7 @@ export default class Point {
   constructor(xy: [number, number]);
   constructor(x: number, y: number);
   constructor(x?: number | [number, number], y?: number) {
-    if (typeof x === "number" && y) {
+    if (typeof x === "number" && typeof y === "number") {
       this.x = x;
       this.y = y;
     } else if (x instanceof Array) {
@@ -60,7 +60,7 @@ export default class Point {
    *
    * @method (Point,Point) => simple substraction
    * @method (Point,number) => substract number from *x* and *y*
-   * @method (Point,[number1,number2]) => substract number1 fromo *x* and number2 from *y*
+   * @method (Point,[number1,number2]) => substract number1 from *x* and number2 from *y*
    * @param [pointA] Point
    * @param [pointB] Point | number
    * @param [pointC] number
@@ -81,9 +81,6 @@ export default class Point {
     if (pointB instanceof Array) {
       return new Point(pointA.x - pointB[0], pointA.y - pointB[1]);
     } else {
-      console.log(pointA);
-      console.log(pointB);
-
       throw new Error(
         "Bad parameters of pointB, only authorized types : Point, number and [number,number]"
       );

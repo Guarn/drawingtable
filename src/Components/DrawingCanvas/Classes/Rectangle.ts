@@ -3,7 +3,7 @@ import Shape from "./Shape";
 import ContextStore from "../Stores/ContextStore";
 
 const { substract } = Point;
-const { get2DContext, getHandlerRadius, getContextCoords } = ContextStore;
+const { get2DContext, getHandlerRadius } = ContextStore;
 
 export default class Rectangle extends Shape {
   startPoint: Point;
@@ -71,54 +71,17 @@ export default class Rectangle extends Shape {
     ctx?.fill();
     ctx?.beginPath();
   }
+
   isPointIn(point: Point): boolean {
     const { x, y } = point;
-    let widthReverse = this.startPoint.x >= this.endPoint.x;
-    let heightReverse = this.startPoint.y >= this.endPoint.y;
-
-    if (
-      widthReverse &&
-      heightReverse &&
-      x + getContextCoords().x < this.startPoint.x + getHandlerRadius() &&
-      y + getContextCoords().y < this.startPoint.y + getHandlerRadius() &&
-      x + getContextCoords().x > this.endPoint.x - getHandlerRadius() &&
-      y + getContextCoords().y > this.endPoint.y - getHandlerRadius()
-    ) {
-      return true;
-    }
-    if (
-      !widthReverse &&
-      !heightReverse &&
-      x + getContextCoords().x > this.startPoint.x - getHandlerRadius() &&
-      y + getContextCoords().y > this.startPoint.y - getHandlerRadius() &&
-      x + getContextCoords().x < this.endPoint.x + getHandlerRadius() &&
-      y + getContextCoords().y < this.endPoint.y + getHandlerRadius()
-    ) {
-      return true;
-    }
-    if (
-      widthReverse &&
-      !heightReverse &&
-      x < this.startPoint.x + getHandlerRadius() &&
-      y > this.startPoint.y - getHandlerRadius() &&
-      x > this.endPoint.x - getHandlerRadius() &&
-      y < this.endPoint.y + getHandlerRadius()
-    ) {
-      return true;
-    }
-
-    if (
-      !widthReverse &&
-      heightReverse &&
-      x > this.startPoint.x - getHandlerRadius() &&
-      y < this.startPoint.y + getHandlerRadius() &&
-      x < this.endPoint.x + getHandlerRadius() &&
-      y > this.endPoint.y - getHandlerRadius()
-    ) {
-      return true;
-    }
-
-    return false;
+    get2DContext()?.beginPath();
+    get2DContext()?.rect(
+      this.startPoint.x - 4,
+      this.startPoint.y - 4,
+      this.width + 4,
+      this.height + 4
+    );
+    return get2DContext()?.isPointInPath(x, y) || false;
   }
 
   isHandleSelected(

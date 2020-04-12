@@ -8,9 +8,7 @@ export const clearDrawArea = () => {
   const ctx = get2DContext();
   const { width, height } = getCanvasDimensions();
   const { x, y } = getContextCoords();
-  console.log(x, y);
-
-  ctx?.clearRect(-x, -y, width, height);
+  ctx?.clearRect(-x - width, -y - height, width * 3, height * 3);
 };
 
 export const drawItemsList = () => {

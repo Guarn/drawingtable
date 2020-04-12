@@ -1,8 +1,11 @@
 import ItemsStore from "../Stores/ItemsStore";
-import { Rectangle } from "../Classes";
+import { Rectangle, Point } from "../Classes";
 import { getRealPoint } from "../Utils/Coords";
 import { clearAndDrawAll } from "../Utils/Drawing";
+import { ContextStore } from "../Stores";
 
+const { getContextCoords } = ContextStore;
+const { substract } = Point;
 const { addItem, selectLastItemAdded, getSelected, updateItem } = ItemsStore;
 
 const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
@@ -11,7 +14,12 @@ const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
   switch (event.type) {
     case "mousedown":
       const startPoint = getRealPoint(clientX, clientY);
-      addItem(new Rectangle(startPoint, startPoint));
+      addItem(
+        new Rectangle(
+          substract(startPoint, getContextCoords()),
+          substract(startPoint, getContextCoords())
+        )
+      );
       selectLastItemAdded();
       clearAndDrawAll();
 
@@ -19,14 +27,16 @@ const ToolRectangle = (event: KeyboardEvent | React.MouseEvent) => {
     case "mousemove":
       const itemMoved = getSelected().item as Rectangle;
       if (itemMoved && itemMoved.isMoving()) {
-        itemMoved.setPoints(undefined, getRealPoint(clientX, clientY));
+        itemMoved.setPoints(
+          undefined,
+          substract(getRealPoint(clientX, clientY), getContextCoords())
+        );
         updateItem(itemMoved);
         clearAndDrawAll();
       }
       break;
     case "mouseup":
       const itemStop = getSelected().item as Rectangle;
-      itemStop.setPoints(undefined, getRealPoint(clientX, clientY));
       itemStop.deselect();
       updateItem(itemStop);
       clearAndDrawAll();

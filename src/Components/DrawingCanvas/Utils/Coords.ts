@@ -4,7 +4,12 @@ import { Point } from "../Classes";
 const { substract } = Point;
 const { getCanvasCoords } = ContextStore;
 
-export const getRealPoint = (x: number, y: number) => {
-  const realPoint = substract({ x, y }, getCanvasCoords());
-  return realPoint;
+export const getRealPoint = (
+  x: number,
+  y: number,
+  canvasCoords?: [number, number]
+) => {
+  return canvasCoords
+    ? substract({ x, y }, canvasCoords)
+    : substract({ x, y }, getCanvasCoords());
 };

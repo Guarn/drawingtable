@@ -88,29 +88,61 @@ const Keyboard = (event: KeyboardEvent, tool: ToolType) => {
     case "Backspace":
       get2DContext()?.setTransform(1, 0, 0, 1, 0, 0);
       clearAndDrawAll();
+      break;
+    case "KeyF":
+      if (event.type === "keydown") {
+        let start: any = null;
+        function step(timestamp: any) {
+          var progress;
+          if (start === null) start = timestamp;
+          progress = timestamp - start;
+          const { a, d } = get2DContext()!.getTransform();
+
+          get2DContext()?.setTransform(
+            a + progress / 10000,
+            0,
+            0,
+            d + progress / 10000,
+            0,
+            0
+          );
+          clearAndDrawAll();
+
+          if (progress < 100) {
+            requestAnimationFrame(step);
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+      break;
+    case "KeyG":
+      if (event.type === "keydown") {
+        let start: any = null;
+        function step(timestamp: any) {
+          var progress;
+          if (start === null) start = timestamp;
+          progress = timestamp - start;
+          const { a, d } = get2DContext()!.getTransform();
+
+          get2DContext()?.setTransform(
+            a - progress / 10000,
+            0,
+            0,
+            d - progress / 10000,
+            0,
+            0
+          );
+          clearAndDrawAll();
+
+          if (progress < 100) {
+            requestAnimationFrame(step);
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
   }
 };
 
 export default Keyboard;
-
-/*  const keyPressHandle = (event: KeyboardEvent) => {
-    if (event.key === "Delete" && selectedId !== -1) {
-      itemsList.splice(selectedId, 1);
-      selectedId = -1;
-      resetContext();
-    }
-    if (event.key === "Escape" && selectedId !== -1) {
-      itemsList[selectedId].deselect();
-      selectedId = -1;
-      resetContext();
-    }
-    if (event.code === "Space") {
-      contextTranslating = true;
-    }
-  };
-
-  const keyUpHandle = (event: KeyboardEvent) => {
-    if (event.code === "Space") {
-      contextTranslating = false;
-    }
-  };*/

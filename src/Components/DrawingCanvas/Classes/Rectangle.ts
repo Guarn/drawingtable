@@ -76,10 +76,10 @@ export default class Rectangle extends Shape {
     const { x, y } = point;
     get2DContext()?.beginPath();
     get2DContext()?.rect(
-      this.startPoint.x - 4,
-      this.startPoint.y - 4,
-      this.width + 4,
-      this.height + 4
+      this.startPoint.x - getHandlerRadius() / 2,
+      this.startPoint.y - getHandlerRadius() / 2,
+      this.width + getHandlerRadius(),
+      this.height + getHandlerRadius()
     );
     return get2DContext()?.isPointInPath(x, y) || false;
   }
@@ -117,26 +117,15 @@ export default class Rectangle extends Shape {
   }
 
   private isPointClose(pointArea: Point, pointClick: Point) {
-    const { x, y } = pointArea;
-    if (
-      this.isPointCloseNumber(x, pointClick.x) &&
-      this.isPointCloseNumber(y, pointClick.y)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private isPointCloseNumber(xArea: number, xClick: number) {
-    if (
-      xClick >= xArea - getHandlerRadius() &&
-      xClick <= xArea + getHandlerRadius()
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    const { x, y } = pointClick;
+    get2DContext()?.beginPath();
+    get2DContext()?.rect(
+      pointArea.x - getHandlerRadius() / 2,
+      pointArea.y - getHandlerRadius() / 2,
+      getHandlerRadius(),
+      getHandlerRadius()
+    );
+    return get2DContext()?.isPointInPath(x, y) ? true : false;
   }
 
   move(point: Point) {

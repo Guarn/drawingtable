@@ -5,28 +5,28 @@ import { clearAndDrawAll } from "./Utils/Drawing";
 import { ToolType } from "./Classes/Types";
 import ToolsReducers from "./ToolsReducers";
 import Keyboard from "./ToolsReducers/Keyboard";
+import Zoom from "./ToolsReducers/Zoom";
 
 export interface DrawingCanvasI {
   tool: ToolType;
 }
-const { setCanvasId, getCanvasDimensions } = ContextStore;
+const { setCanvasId, getCanvasDimensions, get2DContext } = ContextStore;
 const { deselectAll } = ItemsStore;
 const { width, height } = getCanvasDimensions();
 
 const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
-  const handleMouseEvents = (event: React.MouseEvent) => {
+  const handleMouseEvents = (event: React.MouseEvent) =>
     ToolsReducers(event, tool);
-  };
-  const handleKeyboardEvents = (event: KeyboardEvent) => {
-    Keyboard(event, tool);
-  };
+  const handleKeyboardEvents = (event: KeyboardEvent) => Keyboard(event, tool);
+  const handleWheel = (event: React.WheelEvent) => Zoom(event);
 
   useEffect(() => {
     setCanvasId("MyCanvas");
 
     deselectAll();
     clearAndDrawAll();
-
+    get2DContext()!.fillStyle = "black";
+    get2DContext()!.fillRect(0, 0, 50, 50);
     document.addEventListener("keydown", handleKeyboardEvents);
     document.addEventListener("keyup", handleKeyboardEvents);
     return () => {
@@ -44,6 +44,7 @@ const DrawingCanvas = ({ tool }: DrawingCanvasI) => {
       onMouseUp={handleMouseEvents}
       onMouseMove={handleMouseEvents}
       onMouseLeave={handleMouseEvents}
+      onWheel={handleWheel}
     />
   );
 };

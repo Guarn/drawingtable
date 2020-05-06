@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:6-alpine' 
+            image 'guarn/drawingtable' 
             args '-p 3000:3000' 
         }
        
@@ -10,22 +10,11 @@ pipeline {
         CI = 'true'
         }
     stages {
-        stage('Build') { 
+        stage('Start') { 
             steps {
-                sh 'npm install' 
+                sh 'npm start' 
             }
         }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
-            }
-        }
+        
     }
 }
